@@ -2,7 +2,7 @@
   "name": "mrgrnbot",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cron": "^1.8.2",
     "discord.js": "^12.5.3",
     "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.12.0"
   }
 }
