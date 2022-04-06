@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const config = require('./config.json');
 require('dotenv').config();
 const client = new Discord.Client({
     partials: ['MESSAGE', 'REACTION', 'CHANNEL'],
@@ -6,14 +7,12 @@ const client = new Discord.Client({
 
 client.on('ready', () => console.log('The Bot is ready!'));
 
-const prefix = process.env.TOKEN
-
 const hiMessages = ['hi', 'hai', 'halo', 'hallo', 'hei'];
 
 client.on('message', message => {
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const args = message.content.slice(config.prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
     switch (command) {
