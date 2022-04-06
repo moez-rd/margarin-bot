@@ -1,10 +1,12 @@
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
+require('dotenv').config();
 const client = new Discord.Client({
     partials: ['MESSAGE', 'REACTION', 'CHANNEL'],
 });
 
 client.on('ready', () => console.log('The Bot is ready!'));
+
+const prefix = process.env.TOKEN
 
 const hiMessages = ['hi', 'hai', 'halo', 'hallo', 'hei'];
 
@@ -31,4 +33,4 @@ client.on('message', message => {
     }
 })
 
-client.login(token);
+client.login(process.env.TOKEN);
