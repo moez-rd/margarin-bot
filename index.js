@@ -85,4 +85,11 @@ client.on('message', message => {
 	}
 });
 
+client.on('message', message => {
+	const greeting = ['hi', 'hai', 'halo', 'haloo', 'hello', 'helo', 'hay', 'hello', 'hallo', 'hey'];
+	if (greeting.includes(message.content)) {
+		message.react('🖐️');
+	}
+})
+
 client.login(process.env.TOKEN);
