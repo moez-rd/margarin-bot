@@ -93,7 +93,10 @@ client.on('message', message => {
 		`Halo ${message.author}, semoga harimu menyenangkan :v`,
 		'Hai masyarakat NgodingVareng',
 		`HALOOO ${message.author}, kamu siapahh?`,
-		`${message.author}, dak peduli:v`
+		`${message.author}, dak peduli:v`,
+		`HAI ${message.author}`,
+		`HAI ${message.author}, sehatkah dirimu?`,
+		`Halo ${message.author}, semoga cepat waras!:v`
 	]
 
 	greetings.forEach(greeting => {
