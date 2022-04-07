@@ -172,7 +172,7 @@ client.on('message', async message => {
 			return message.reply(`Could not find tag: ${tagName}`);
 
 		} else if (command === 'showtags') {
-			const tagList = await Tags.findAll({ attributes: ['name'] });
+			const tagList = await Tags.findAll({ attributes: ['name'] }, { where: { gulid_id: message.guild.id } });
 			const tagString = tagList.map(t => t.name).join(', ') || 'No tags set.';
 			return message.channel.send(`List of tags: ${tagString}`);
 		} else if (command === 'removetag') {
