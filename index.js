@@ -36,7 +36,8 @@ const Tags = sequelize.define('tags', {
 		type: Sequelize.INTEGER,
 		defaultValue: 0,
 		allowNull: false
-	}
+	},
+	gulid_id: Sequelize.STRING
 })
 
 const commandFolders = fs.readdirSync('./commands');
@@ -131,7 +132,8 @@ client.on('message', async message => {
 				const tag = await Tags.create({
 					name: tagName,
 					description: tagDescription,
-					username: message.author.username
+					username: message.author.username,
+					gulid_id: message.guild.id
 				});
 				return message.reply(`Tag ${tagName} added.`);
 			} catch (error) {
@@ -144,7 +146,7 @@ client.on('message', async message => {
 		} else if (command === 'tag') {
 			const tagName = commandArgs;
 
-			const tag = await Tags.findOne({ where: { name: tagName } });
+			const tag = await Tags.findOne({ where: { name: tagName, gulid_id: message.guild.id } });
 			if (tag) {
 				tag.increment('usage_count');
 				return message.channel.send(tag.get('description'));
@@ -155,7 +157,7 @@ client.on('message', async message => {
 			const tagName = splitArgs.shift();
 			const tagDescription = splitArgs.join(' ');
 
-			const affectedRows = await Tags.update({ description: tagDescription }, { where: { name: tagName } });
+			const affectedRows = await Tags.update({ description: tagDescription }, { where: { name: tagName, gulid_id: message.guild.id } });
 			if (affectedRows > 0) {
 				return message.reply(`Tag ${tagName} was edited`);
 			}
@@ -163,7 +165,7 @@ client.on('message', async message => {
 		} else if (command === 'taginfo') {
 			const tagName = commandArgs
 
-			const tag = await Tags.findOne({ where: { name: tagName } });
+			const tag = await Tags.findOne({ where: { name: tagName, gulid_id: message.guild.id } });
 			if (tag) {
 				return message.channel.send(`${tagName} was created by ${tag.username} at ${tag.createdAt} and has been used ${tag.usage_count} times.`);
 			}
@@ -175,7 +177,7 @@ client.on('message', async message => {
 			return message.channel.send(`List of tags: ${tagString}`);
 		} else if (command === 'removetag') {
 			const tagName = commandArgs;
-			const rowCount = await Tags.destroy({ where: { name: tagName } });
+			const rowCount = await Tags.destroy({ where: { name: tagName, gulid_id: message.guild.id } });
 			if (!rowCount) {
 				return message.reply('That tag did not exist');
 			}
