@@ -5,11 +5,12 @@ module.exports = {
     name: 'morning',
     description: 'Morning reminder',
     execute(message, args) {
-        let scheduledMessage = new cron.CronJob('00 59 09 * * *', () => {
+        let scheduledMessage = new cron.CronJob('00 12 10 * * *', () => {
             const embed = new Discord.MessageEmbed()
                 .setColor('#8FBDD3')
                 .setTitle('Selamat pagy masyarakat NgodingVareng')
-                .setDescription('Semoga harimu menyenangkan')
+                .attachFiles(['../../assets/img/pagy.jpg'])
+                .setImage('attachment://pagy.jpg');
 
             message.channel.send(embed);
         }, null, true, 'Asia/Jakarta');
