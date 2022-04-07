@@ -5,7 +5,7 @@ module.exports = {
     name: 'morning',
     description: 'Morning reminder',
     execute(message, args) {
-        let scheduledMessage = new cron.CronJob('* * * * * *', () => {
+        let scheduledMessage = new cron.CronJob('00 00 * * * *', () => {
             const embed = new Discord.MessageEmbed()
                 .setColor('#8FBDD3')
                 .setTitle('Selamat pagy masyarakat NgodingVareng')
