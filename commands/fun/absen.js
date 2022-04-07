@@ -1,4 +1,4 @@
-import moment from 'moment';
+const moment = require('moment');
 
 module.exports = {
     name: 'absen',
