@@ -86,9 +86,16 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
-	const greeting = ['hi', 'hai', 'halo', 'haloo', 'hello', 'helo', 'hay', 'hello', 'hallo', 'hey'];
-	if (greeting.includes(message.content)) {
+	const greetings = ['hi', 'hai', 'halo', 'haloo', 'hello', 'helo', 'hay', 'hello', 'hallo', 'hey'];
+	const answers = [
+		`Halo ${message.author}, semoga harimu menyenangkan :v`,
+		'Hai masyarakat NgodingVareng',
+		`HALOOO ${message.author}, kamu siapahh?`,
+		`${message.author}, dak peduli:v`
+	]
+	if (greetings.includes(message.content)) {
 		message.react('🖐️');
+		message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
 	}
 })
 
