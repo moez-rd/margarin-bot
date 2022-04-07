@@ -93,10 +93,12 @@ client.on('message', message => {
 		`HALOOO ${message.author}, kamu siapahh?`,
 		`${message.author}, dak peduli:v`
 	]
-	if (greetings.includes(message.content.toLowerCase())) {
-		message.react('🖐️');
-		message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
-	}
+	greetings.forEach(greeting => {
+		if (message.content.toLowerCase().includes(greeting)) {
+			message.react('🖐️');
+			message.channel.send(answers[Math.floor(Math.random() * answers.length)]);
+		}
+	});
 })
 
 client.login(process.env.TOKEN);
