@@ -15,21 +15,13 @@ module.exports = {
             message.channel.send(embed);
         }, null, false, 'Asia/Jakarta');
         if (args[0] == 'start') {
-            if (!scheduledMessage.running) {
-                scheduledMessage.start()
-                return message.channel.send('Pengingat pagy dibuat.')
-            } else {
-                return message.channel.send('Pengingat pagy sudah dijalankan sebelumnya.')
-            }
+            scheduledMessage.start()
+            return message.channel.send('Pengingat pagy dibuat.')
         }
 
         if (args[0] == 'stop') {
-            if (scheduledMessage.running) {
-                scheduledMessage.stop()
-                return message.channel.send('Pengingat pagy dihentikan.')
-            } else {
-                return message.channel.send('Pengingat pagy tidak dijalankan sebelumnya.')
-            }
+            scheduledMessage.stop()
+            return message.channel.send('Pengingat pagy dihentikan.')
         }
     },
 };
