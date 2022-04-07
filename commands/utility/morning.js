@@ -13,7 +13,7 @@ module.exports = {
                 .setImage('attachment://pagy.jpg');
 
             message.channel.send(embed);
-        }, null, true, 'Asia/Jakarta');
+        }, null, false, 'Asia/Jakarta');
         if (args[0] == 'start') {
             if (!scheduledMessage.running) {
                 scheduledMessage.start()
