@@ -86,7 +86,7 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
-	const greetings = ['hi', 'hai', 'halo', 'haloo', 'hello', 'helo', 'hay', 'hello', 'hallo', 'hey'];
+	const greetings = ['hi', 'hai', 'halo', 'haloo', 'hello', 'helo', 'hay', 'hello', 'hallo', 'hey', 'hola', 'ohayo', 'oi', 'oyy', 'oy'];
 	const answers = [
 		`Halo ${message.author}, semoga harimu menyenangkan :v`,
 		'Hai masyarakat NgodingVareng',
