@@ -1,6 +1,5 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const Sequelize = require('sequelize');
 const config = require('./config.json');
 require('dotenv').config();
 
@@ -9,36 +8,7 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.cooldowns = new Discord.Collection();
 
-const sequelize = new Sequelize('database', 'user', 'password', {
-	host: 'localhost',
-	dialect: 'sqlite',
-	logging: false,
-	// SQLite only
-	storage: 'database.sqlite',
-});
-
-/*
- * equivalent to: CREATE TABLE tags(
- * name VARCHAR(255),
- * description TEXT,
- * username VARCHAR(255),
- * usage_count  INT NOT NULL DEFAULT 0
- * );
- */
-const Tags = sequelize.define('tags', {
-	name: {
-		type: Sequelize.STRING,
-		unique: true
-	},
-	description: Sequelize.TEXT,
-	username: Sequelize.STRING,
-	usage_count: {
-		type: Sequelize.INTEGER,
-		defaultValue: 0,
-		allowNull: false
-	},
-	gulid_id: Sequelize.STRING
-})
+const database = require('./database/defineDatabase');
 
 const commandFolders = fs.readdirSync('./commands');
 
@@ -51,7 +21,7 @@ for (const folder of commandFolders) {
 }
 
 client.once('ready', () => {
-	Tags.sync();
+	database.Tags.sync();
 	console.log('Ready!');
 });
 
@@ -109,6 +79,8 @@ client.on('message', message => {
 	timestamps.set(message.author.id, now);
 	setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
+	command.database = database;
+
 	try {
 		command.execute(message, args);
 	} catch (error) {
@@ -129,7 +101,7 @@ client.on('message', async message => {
 			const tagDescription = splitArgs.join(' ');
 
 			try {
-				const tag = await Tags.create({
+				const tag = await database.Tags.create({
 					name: tagName,
 					description: tagDescription,
 					username: message.author.username,
@@ -146,7 +118,7 @@ client.on('message', async message => {
 		} else if (command === 'tag') {
 			const tagName = commandArgs;
 
-			const tag = await Tags.findOne({ where: { name: tagName, gulid_id: message.guild.id } });
+			const tag = await database.Tags.findOne({ where: { name: tagName, gulid_id: message.guild.id } });
 			if (tag) {
 				tag.increment('usage_count');
 				return message.channel.send(tag.get('description'));
@@ -157,7 +129,7 @@ client.on('message', async message => {
 			const tagName = splitArgs.shift();
 			const tagDescription = splitArgs.join(' ');
 
-			const affectedRows = await Tags.update({ description: tagDescription }, { where: { name: tagName, gulid_id: message.guild.id } });
+			const affectedRows = await database.Tags.update({ description: tagDescription }, { where: { name: tagName, gulid_id: message.guild.id } });
 			if (affectedRows > 0) {
 				return message.reply(`Tag ${tagName} was edited`);
 			}
@@ -165,19 +137,19 @@ client.on('message', async message => {
 		} else if (command === 'taginfo') {
 			const tagName = commandArgs
 
-			const tag = await Tags.findOne({ where: { name: tagName, gulid_id: message.guild.id } });
+			const tag = await database.Tags.findOne({ where: { name: tagName, gulid_id: message.guild.id } });
 			if (tag) {
 				return message.channel.send(`${tagName} was created by ${tag.username} at ${tag.createdAt} and has been used ${tag.usage_count} times.`);
 			}
 			return message.reply(`Could not find tag: ${tagName}`);
 
 		} else if (command === 'showtags') {
-			const tagList = await Tags.findAll({ attributes: ['name'] }, { where: { gulid_id: message.guild.id } });
+			const tagList = await database.Tags.findAll({ attributes: ['name'] }, { where: { gulid_id: message.guild.id } });
 			const tagString = tagList.map(t => t.name).join(', ') || 'No tags set.';
 			return message.channel.send(`List of tags: ${tagString}`);
 		} else if (command === 'removetag') {
 			const tagName = commandArgs;
-			const rowCount = await Tags.destroy({ where: { name: tagName, gulid_id: message.guild.id } });
+			const rowCount = await database.Tags.destroy({ where: { name: tagName, gulid_id: message.guild.id } });
 			if (!rowCount) {
 				return message.reply('That tag did not exist');
 			}
@@ -189,7 +161,7 @@ client.on('message', async message => {
 client.on('message', message => {
 	if (message.author.bot) return;
 
-	const greetings = ['hi', 'hai', 'halo', 'haloo', 'hello', 'helo', 'hay', 'hello', 'hallo', 'hey', 'hola', 'ohayo', 'oi', 'oyy', 'oy'];
+	const greetings = config.greetings;
 	const answers = [
 		`Halo ${message.author}, semoga harimu menyenangkan :v`,
 		'Hai masyarakat NgodingVareng',

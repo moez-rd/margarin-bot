@@ -1,3 +1,21 @@
 {
-    "prefix": "?"
+    "prefix": "?",
+    "greetings": [
+        "hi",
+        "hai",
+        "halo",
+        "haloo",
+        "hello",
+        "helo",
+        "hay",
+        "hello",
+        "hallo",
+        "hey",
+        "hola",
+        "ohayo",
+        "oi",
+        "oyy",
+        "oy",
+        "oey"
+    ]
 }
