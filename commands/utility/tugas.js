@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'absen',
+    name: 'tugas',
     description: 'hanya absen',
     cooldown: 60,
     execute(message, args) {
