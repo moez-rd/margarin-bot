@@ -16,11 +16,7 @@
             }
         ],
         "brace-style": [
-            "error",
-            "stroustrup",
-            {
-                "allowSingleLine": true
-            }
+            "error"
         ],
         "comma-dangle": [
             "error",
