@@ -5,7 +5,7 @@ const log = console.log;
 module.exports = {
 	name: 'interactionCreate',
 	execute(client, interaction) {
-		log(`${chalk.yellow.bold(interaction.user.tag)} in ${chalk.yellow.bold(`#${interaction.channel.name}`)}triggered an interaction.`);
+		log(`${chalk.yellow.bold(interaction.user.tag)} in ${chalk.yellow.bold(`#${interaction.channel.name}`)} triggered an interaction.`);
 
 		if (!interaction.isCommand()) return;
 

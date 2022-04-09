@@ -1,3 +1,6 @@
 {
-    "prefix": "?"
+    "prefix": "?",
+    "slashCommandsDir": "./commands/slash",
+    "prefixCommandsDir": "./commands/prefix",
+    "generalCommandsDir": "./commands/general"
 }
