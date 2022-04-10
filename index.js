@@ -1,4 +1,3 @@
-const { readdirSync } = require('node:fs');
 const { Client, Intents } = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -14,11 +13,23 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
  * Load The Bot Functions
  ***************************************************/
 
-const handlerFiles = readdirSync('./handlers').filter(file => file.endsWith('.js'));
-
 function loadHandlers() {
-	for (const handler of handlerFiles) {
-		require(`./handlers/${handler}`)(client);
+	['command', 'slashCommand', 'event', 'config'].forEach(handler => {
+		try {
+			require(`./handlers/${handler}`)(client);
+		} catch (e) {
+			console.log(e.stack);
+		}
+	});
+
+	if (process.argv.includes('-init')) {
+		['deployCommands', 'dbinit'].forEach(handler => {
+			try {
+				require(`./handlers/${handler}`)(client);
+			} catch (e) {
+				console.log(e.stack);
+			}
+		});
 	}
 } loadHandlers();
 

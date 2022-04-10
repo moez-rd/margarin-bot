@@ -1,17 +1,20 @@
 const { Collection } = require('discord.js');
 const chalk = require('chalk');
-const { prefix } = require('../config.json');
+// const { prefix } = require('../config/config.json');
 
 const log = console.log;
 
 module.exports = {
 	name: 'messageCreate',
 	execute(client, message) {
+		const prefix = client.config.config.prefix;
+
 		if (message.author.bot) return;
 
 		if (message.content.startsWith(prefix)) {
 
 			log(`${chalk.yellow.bold(message.author.tag)} in ${chalk.yellow.bold(`#${message.channel.name}`)} triggered a prefixed message.`);
+
 
 			const args = message.content.slice(prefix.length).trim().split(/ +/);
 			const commandName = args.shift().toLowerCase();

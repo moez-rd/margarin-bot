@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "depcmd": "node deploy-commands.js",
-    "sdep": "npm run depcmd && npm run start",
-    "dbinit": "node dbInit.js"
+    "start:init": "node . -init"
   },
   "repository": {
     "type": "git",
