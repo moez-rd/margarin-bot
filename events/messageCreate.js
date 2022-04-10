@@ -18,7 +18,7 @@ module.exports = {
 
 			const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-			if (!command) return;
+			if (!command || !command.withPrefix) return;
 
 			if (command.guildOnly && message.channel.type === 'dm') {
 				return message.reply('I can\'t execute that command inside DMs!');
@@ -72,6 +72,16 @@ module.exports = {
 		} else {
 			log(`${chalk.yellow.bold(message.author.tag)} in ${chalk.yellow.bold(`#${message.channel.name}`)} triggered a message.`);
 
+			const command = client.commands.get(message.content) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(message.content));
+
+			if (!command || command.withPrefix) return;
+
+			try {
+				command.execute(message);
+			} catch (error) {
+				console.error(error);
+				message.reply('there was an error trying to execute that command!');
+			}
 		}
 	},
 };
